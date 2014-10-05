@@ -1,0 +1,4 @@
+rootProject.name = 'PlaneSchedules'
+
+include "collector", "supplier", "shared"
+

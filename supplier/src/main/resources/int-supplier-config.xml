@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans
+        xmlns="http://www.springframework.org/schema/beans"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:int="http://www.springframework.org/schema/integration"
+        xmlns:jms="http://www.springframework.org/schema/integration/jms"
+        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+                            http://www.springframework.org/schema/integration
+                            http://www.springframework.org/schema/integration/spring-integration.xsd
+                            http://www.springframework.org/schema/integration/jms
+			                http://www.springframework.org/schema/integration/jms/spring-integration-jms.xsd">
+
+    <!-- Spring JMS Template -->
+    <int:channel id="inputChannel"/>
+
+    <int:splitter id="testSplitter" input-channel="inputChannel" output-channel="jmsChannel">
+        <bean class="org.springframework.integration.splitter.DefaultMessageSplitter"/>
+    </int:splitter>
+
+    <int:channel id="jmsChannel"/>
+
+    <jms:outbound-channel-adapter id="jmsout" channel="jmsChannel" destination="destination"/>
+
+</beans>

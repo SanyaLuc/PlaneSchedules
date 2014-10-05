@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:int="http://www.springframework.org/schema/integration"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans.xsd
+                           http://www.springframework.org/schema/integration
+			               http://www.springframework.org/schema/integration/spring-integration.xsd">
+
+    <int:channel id="inputChannel"/>
+    <int:channel id="countryRounterChannel"/>
+
+    <int:channel id="TurkeyChannel"/>
+    <int:channel id="RussiaChannel"/>
+    <int:channel id="GermanyChannel"/>
+    <int:channel id="USAChannel"/>
+
+    <int:header-enricher input-channel="inputChannel" output-channel="countryRounterChannel">
+        <int:header name="country" expression="@planeMessageEnricher.determineCountry(payload)" />
+    </int:header-enricher>
+
+    <bean id="planeMessageEnricher" class="edu.san.luc.pschedules.client.PlaneMessageEnricher">
+        <property name="countryPerCompanyMap">
+            <map>
+                <entry key="Turkish Airline" value="Turkey" />
+                <entry key="Russia Airline" value="Russia" />
+                <entry key="Germany Airline" value="Germany" />
+                <entry key="US Airline" value="USA" />
+                <entry key="Aeroflot" value="Russia"/>
+            </map>
+        </property>
+    </bean>
+
+    <int:router input-channel="countryRounterChannel" expression="headers['country'] + 'Channel'"/>
+
+</beans>

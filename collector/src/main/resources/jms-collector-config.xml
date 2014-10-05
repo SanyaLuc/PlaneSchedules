@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:int="http://www.springframework.org/schema/integration"
+       xmlns:jms="http://www.springframework.org/schema/jms"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans.xsd
+                           http://www.springframework.org/schema/jms
+                           http://www.springframework.org/schema/jms/spring-jms.xsd
+                           http://www.springframework.org/schema/integration
+			               http://www.springframework.org/schema/integration/spring-integration.xsd">
+
+    <jms:listener-container container-type="default"
+                            connection-factory="connectionFactory"
+                            acknowledge="auto">
+        <jms:listener destination="${queuePhysicalName}" ref="jmsMessageListener"/>
+    </jms:listener-container>
+
+    <bean id="jmsMessageListener" class="edu.san.luc.pschedules.listener.JmsMessageListener"/>
+
+    <!-- Counter for consumer to increment and test to verify count -->
+    <bean id="counter" class="java.util.concurrent.atomic.AtomicInteger"/>
+
+    <int:outbound-channel-adapter channel="turkishAirlineChannel" method="handle">
+        <bean class="edu.san.luc.pschedules.handler.PlaneMessageHandler" p:outputFile="output/turkishAirlines.csv"/>
+    </int:outbound-channel-adapter>
+
+    <int:outbound-channel-adapter channel="russiaAirlineChannel" method="handle">
+        <bean class="edu.san.luc.pschedules.handler.PlaneMessageHandler" p:outputFile="output/russianAirlines.csv"/>
+    </int:outbound-channel-adapter>
+
+    <int:outbound-channel-adapter channel="usAirlineChannel" method="handle">
+        <bean class="edu.san.luc.pschedules.handler.PlaneMessageHandler" p:outputFile="output/usaAirlines.csv"/>
+    </int:outbound-channel-adapter>
+
+    <int:outbound-channel-adapter channel="germanyAirlineChannel" method="handle">
+        <bean class="edu.san.luc.pschedules.handler.PlaneMessageHandler" p:outputFile="output/germanAirlines.csv"/>
+    </int:outbound-channel-adapter>
+
+</beans>
