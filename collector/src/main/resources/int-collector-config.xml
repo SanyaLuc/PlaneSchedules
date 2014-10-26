@@ -30,8 +30,9 @@
 
     <int:channel id="aggregationChannel"/>
 
+    <!--correlation-strategy-expression="payload.name"-->
     <int:aggregator input-channel="aggregationChannel" output-channel="aggregatedCountryRounterChannel"
-                    correlation-strategy-expression="payload.name"
+                    correlation-strategy-expression="headers['country']"
                     group-timeout="5000"
                     send-partial-result-on-expiry="true">
     </int:aggregator>

@@ -1,8 +1,10 @@
 package edu.san.luc.pschedules.supplier;
 
+import edu.san.luc.pschedules.PlaneMessageReader;
 import edu.san.luc.pschedules.client.StartCollectorApp;
 import edu.san.luc.pschedules.csv.GenericCsvReader;
 import edu.san.luc.pschedules.message.PlaneMessage;
+import edu.san.luc.pschedules.xml.PlaneMessageXmlReader;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.integration.support.MessageBuilder;
@@ -34,9 +36,9 @@ public class StartSupplierApp {
         ApplicationContext applicationContext = new ClassPathXmlApplicationContext("/common.xml","/embed_broker.xml","/int-supplier-config.xml");
 
         MessageChannel messageChannel = applicationContext.getBean("inputChannel", MessageChannel.class);
-        GenericCsvReader genericCsvReader = applicationContext.getBean("genericCsvReader", GenericCsvReader.class);
-        File inputFile = applicationContext.getResource("classpath:flight-shedule.csv").getFile();
-        List<PlaneMessage> planeMessages = genericCsvReader.read(PlaneMessage.class, inputFile);
+        PlaneMessageReader reader = applicationContext.getBean("planeMessageXmlReader", PlaneMessageReader.class);
+        File inputFile = applicationContext.getResource("classpath:flight-shedule.xml").getFile();
+        List<PlaneMessage> planeMessages = reader.read(inputFile);
         messageChannel.send(MessageBuilder.withPayload(planeMessages).build());
 
         return applicationContext;

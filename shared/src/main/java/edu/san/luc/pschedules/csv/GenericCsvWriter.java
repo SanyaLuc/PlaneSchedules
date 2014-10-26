@@ -1,7 +1,6 @@
 package edu.san.luc.pschedules.csv;
 
-import edu.san.luc.pschedules.message.PlaneMessage;
-import org.jsefa.Deserializer;
+import edu.san.luc.pschedules.PlaneMessageWriter;
 import org.jsefa.Serializer;
 import org.jsefa.csv.CsvIOFactory;
 import org.jsefa.csv.config.CsvConfiguration;
@@ -9,16 +8,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.FileWriter;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by sanya on 19.07.14.
  */
-public class GenericCsvWriter {
+public class GenericCsvWriter{
     public static final char DEFAULT_DELIMITER = ',';
 
     private static final Logger logger = LoggerFactory.getLogger(GenericCsvWriter.class);

@@ -1,11 +1,10 @@
 package edu.san.luc.pschedules.writer;
 
-import edu.san.luc.pschedules.csv.GenericCsvReader;
-import edu.san.luc.pschedules.csv.GenericCsvWriter;
 import edu.san.luc.pschedules.message.PlaneMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 import java.io.File;
 import java.util.*;
@@ -19,11 +18,12 @@ public class PlaneMessageWriter {
     private String outputFile;
 
     @Autowired
-    private GenericCsvWriter genericCsvWriter;
+    @Qualifier("planeMessageXmlWriter")
+    private edu.san.luc.pschedules.PlaneMessageWriter planeMessageWriter;
 
     public void write(List<PlaneMessage> messages){
         File file = new File(outputFile);
-        genericCsvWriter.append(messages, file);
+        planeMessageWriter.append(messages, file);
 
         logger.info("Appending plane schedule to file: "+file.getAbsolutePath());
     }

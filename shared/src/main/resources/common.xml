@@ -43,4 +43,6 @@
     <!-- CSV Configuration -->
     <bean id="genericCsvWriter" class="edu.san.luc.pschedules.csv.GenericCsvWriter"/>
     <bean id="genericCsvReader" class="edu.san.luc.pschedules.csv.GenericCsvReader"/>
+    <bean id="planeMessageXmlReader" class="edu.san.luc.pschedules.xml.PlaneMessageXmlReader"/>
+    <bean id="planeMessageXmlWriter" class="edu.san.luc.pschedules.xml.PlaneMessageXmlWriter"/>
 </beans>
